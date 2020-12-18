@@ -3,7 +3,8 @@ var express = require('express');
 const { truncate } = require('fs');
 var { createProxyMiddleware } = require('http-proxy-middleware');
 var path = require('path');
-var port = 8000;
+var port = 80;
+let awsIp = '3.17.62.107';
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -12,7 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/songDescription/', createProxyMiddleware({
-  target: 'http://localhost:2001/',
+  // production
+  target: `http://${awsIp}:2001/`,
+  // local
+  // target: 'http://localhost:2001/',
   changeOrigin: true
 }));
 
